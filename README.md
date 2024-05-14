@@ -1,4 +1,4 @@
-# P5 Template
+# P5 Template Canton
 
 Template para proyectos con p5.js con Express y Node.js.
 
