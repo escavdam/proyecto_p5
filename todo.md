@@ -56,3 +56,10 @@ text(textito, 0, 0)
 ```js
 if(keyIsPressed) console.log(keyCode, key);
 ```
+
+# Equipo Camacho + Ale
+
+- Cread una clase para las **celdas** de nuestro grid, necesitamos que en el constructor tengamos una x y una y
+- Añade un metodo `show` que muestre un rectangulo
+- Cread una clase para el **grid** de nuestro escenario, esta clase deberá instanciar las celdas que componen nuestro escenario
+
