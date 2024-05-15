@@ -2,11 +2,14 @@
 
 - Añadid colisiones con los bordes de la pantalla
 - Integrad el grid que han desarrollado en la rama correspondiente, intentad marcar las baldosas donde esta el personaje pintandolas de otro color.
+- Aislad el comportamiento del jugador en una clase
 
 # Equipo Javi + Lucas
 
 - Crear movimiento con CELLSIZE
 - Limitar movimiento para que no se salga de la pantalla
+- Integrad el grid que se ha desarrollado en la rama correspondiente, intentad marcar las baldosas donde esta el personaje pintandolas de otro color.
+- Aislad el comportamiento del jugador en una clase
 
 # Canton
 
@@ -25,13 +28,13 @@
 
 # Makram
 
-- Crea el endpoint GET /puntos, en este endpoint utilizarás la función que creará @Diego siguiendo la estructura de datos que hay planteada en las tareas de @Canton.
-- Devuelve un json hardcodeado que simule una respuesta de nuestra base de datos, GET /puntos devolverá una lista con varios objetos que contienen el *nombre* y los *puntos* de los jugadores con records.
-- Crea el endpoint POST /puntos, en este endpoint por ahora debes esperar a que @Diego termine su CRUD, mientras tanto devuelve el texto "todo ok"
+- Crea el endpoint `GET /puntos`, en este endpoint utilizarás la función que creará @Diego siguiendo la estructura de datos que hay planteada en las tareas de @Canton.
+- Devuelve un json hardcodeado que simule una respuesta de nuestra base de datos, `GET /puntos` devolverá una lista con varios objetos que contienen el *nombre* y los *puntos* de los jugadores con records.
+- Crea el endpoint `POST /puntos`, en este endpoint por ahora debes esperar a que @Diego termine su CRUD, mientras tanto devuelve el texto "todo ok"
 
 # Idaira
 
-Necesitamos una opcion de debugging sencilla que muestre informacion relativa al juego en pantalla utilizando text().
+Necesitamos una opcion de debugging sencilla que muestre informacion relativa al juego en pantalla utilizando `text()`.
 - Crea una funcion que espera un objeto con diferentes variables como argumento. Muestra en el canvas la informacion, no tienes que complicarte mucho, puedes imprimir el texto en el x=0 y=0:
 
 ```js
