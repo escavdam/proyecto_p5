@@ -1,5 +1,12 @@
 # Tareas
 
+## Variables y constantes
+
+- cellsize: Tamaño de las celdas
+- grid: Lista de baldosas
+- jugador: Objeto jugador
+
+
 ## Escenario 
 
 1. Debemos crear una funcion que nos deje dividir el canvas en n partes iguales, tanto en el ancho como el alto.
