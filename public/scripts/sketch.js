@@ -1,6 +1,7 @@
 let jugador
 let enemigos = []
 let spawn
+let puntuacion = 0;
 
 function setup(){
     createCanvas(400, 400);
@@ -12,23 +13,32 @@ function setup(){
     ellipseMode(CENTER)
 }
 function draw(){
-  background(0,0,50)
-  keyboardInputs()
-  jugador.show()
-  spawn.update()
+  background(0,0,50);
+  keyboardInputs();
+  jugador.show();
+  spawn.update();
 
-  enemigos.forEach(enemigo => enemigo.show())
-  enemigos.forEach(enemigo => enemigo.move())
-
+  enemigos.forEach(enemigo => enemigo.show());
+  enemigos.forEach(enemigo => enemigo.move());
 
   if(jugador.checkCollision(enemigos)){
-      noLoop(); 
-      textSize(32);
-      fill(255);
-      textAlign(CENTER, CENTER);
-      text("Game Over", width / 2, height / 2);
-  }
+    console.log("Game Over block executed");
+    noLoop(); 
+    textSize(32);
+    fill(255,0,0); // Cambio el color a rojo (255,0,0)
+    console.log("Text color set to red");
+    textAlign(CENTER, CENTER);
+    text("Game Over", width / 2, height / 2);
 }
+
+  puntuacion = Math.floor(frameCount / 90);
+
+  textSize(20);
+  fill(0);
+  textAlign(LEFT);
+  text("Puntuación: " + puntuacion, 10, 30);
+}
+
 
 class Jugador{
   constructor(){
