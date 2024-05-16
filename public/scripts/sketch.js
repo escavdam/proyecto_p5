@@ -1,49 +1,148 @@
-let y1, y2, y3;
-let objects = [];
-let objectSpeed = 3;
-let objectSize = 20;
+let jugador
+let enemigos = []
+let spawnTest
 
-function setup() {
-  createCanvas(400, 600);
-  y1 = 0;
-  y2 = height / 4;
-  y3 = height / 2;
+function setup(){
+    createCanvas(windowWidth, windowHeight);
+    colorMode(HSB, 360, 100, 100, 100);
+    background(0,0,50)
+    jugador = new Jugador()
+    spawnTest = new Spawn(width/2, 0)
+    rectMode(CENTER)
+    ellipseMode(CENTER)
+}
+function draw(){
+    background(0,0,50)
+    keyboardInputs()
+    jugador.show()
+    spawnTest.show()
+    if(frameCount%100 === 0){
+        spawnTest.spawn()
+    }
+    enemigos.forEach(enemigo => enemigo.show())
+    enemigos.forEach(enemigo => enemigo.move())
 }
 
-function draw() {
-  background(220);
-  
-  // Dibujar líneas
-  for (let i = 1; i <= 3; i++) {
-    let x = i * width / 3;
-    line(x, 0, x, height);
-  }
-  
-  // Mover objetos
-  for (let i = objects.length - 1; i >= 0; i--) {
-    let obj = objects[i];
-    obj.y += objectSpeed;
-    fill(255, 0, 0);
-    ellipse(obj.x, obj.y, objectSize);
-    if (obj.y > height) {
-      objects.splice(i, 1); // Elimina objetos que salen de la pantalla
+class Jugador{
+    constructor(){
+        this.x = width / 2
+        this.y = height - 100
+        this.s = 50
     }
-  }
-  
 
-  if (frameCount % 60 === 0) {
-    let randomLane = floor(random(3));
-    let objectY;
-    if (randomLane === 0) {
-      objectY = y2;
-    } else if (randomLane === 1) {
-      objectY = y3;
+    show(){
+        ellipse(this.x, this.y, this.s)
+    }
+
+    moveLeft(){
+        this.x = width / 2 - 100
+    }
+
+    moveRight(){
+        this.x = width / 2 + 100
+    }
+
+    moveCenter(){
+        this.x = width / 2
+    }
+}
+
+class Enemigo{
+    constructor(x, y){
+        this.x = x;
+        this.y = y;
+        this.s = 50;
+    }
+
+    show(){
+        rect(this.x, this.y, this.s)
+    }
+
+    move(){
+        this.y++;
+    }
+}
+
+class Spawn{
+    constructor(x, y){
+        this.x = x
+        this.y = y
+    }
+
+    show(){
+        rect(this.x, this.y, 20)
+    }
+
+    spawn(){
+        enemigos.push(new Enemigo(this.x, this.y))
+    }
+}
+
+class Spawns
+
+function keyboardInputs(){
+    if(keyIsPressed){
+        if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) { //65
+            jugador.moveLeft();
+        }
+  
+        if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
+            jugador.moveRight()
+        }     
     } else {
-      objectY = y2 + (y3 - y2) / 2; // Entre y2 y y3
-    }
-    objects.push({x: width / 2, y: 0});
-  }
+        jugador.moveCenter()
+    }    
 }
+
+
+
+
+// let y1, y2, y3;
+// let objects = [];
+// let objectSpeed = 3;
+// let objectSize = 20;
+
+// function setup() {
+//   createCanvas(400, 600);
+//   y1 = 0;
+//   y2 = height / 4;
+//   y3 = height / 2;
+// }
+
+// function draw() {
+//   background(220);
+  
+//   // Dibujar líneas
+//   for (let i = 1; i <= 3; i++) {
+//     let x = i * width / 3;
+//     line(x, 0, x, height);
+//   }
+  
+//   // Mover objetos
+//   for (let i = objects.length - 1; i >= 0; i--) {
+//     let obj = objects[i];
+//     obj.y += objectSpeed;
+//     fill(255, 0, 0);
+//     ellipse(obj.x, obj.y, objectSize);
+//     if (obj.y > height) {
+//       objects.splice(i, 1); // Elimina objetos que salen de la pantalla
+//     }
+//   }
+  
+
+//   if (frameCount % 60 === 0) {
+//     let randomLane = floor(random(3));
+//     let objectY;
+//     if (randomLane === 0) {
+//       objectY = y2;
+//     } else if (randomLane === 1) {
+//       objectY = y3;
+//     } else {
+//       objectY = y2 + (y3 - y2) / 2; // Entre y2 y y3
+//     }
+//     objects.push({x: width / 2, y: 0});
+//   }
+// }
 
 
 
