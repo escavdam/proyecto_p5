@@ -1,47 +1,59 @@
-let jugador
-let enemigos = []
-let spawn
+let jugador;
+let enemigos = [];
+let spawn;
 
 function setup(){
     createCanvas(400, 400);
     colorMode(HSB, 360, 100, 100, 100);
-    background(0,0,50)
-    jugador = new Jugador()
-    spawn = new Spawns()
-    rectMode(CENTER)
-    ellipseMode(CENTER)
+    background(0,0,50);
+    jugador = new Jugador();
+    spawn = new Spawns();
+    rectMode(CENTER);
+    ellipseMode(CENTER);
 }
+
 function draw(){
-    background(0,0,50)
-    keyboardInputs()
-    jugador.show()
-    spawn.update()
-  
-    enemigos.forEach(enemigo => enemigo.show())
-    enemigos.forEach(enemigo => enemigo.move())
+    background(0,0,50);
+    keyboardInputs();
+    jugador.show();
+    spawn.update();
+    
+    //recorre todos los enemigos, los muestra y se mueve para comprobar si a colapsa con el jugador
+    for (let i = enemigos.length - 1; i >= 0; i--) {
+        enemigos[i].show();
+        enemigos[i].move();
+        
+        if (enemigos[i].hits(jugador)) {
+            noLoop();
+            textSize(32);
+            fill(255);
+            textAlign(CENTER, CENTER);
+            text("¡Has perdido!", width / 2, height / 2);
+        }
+    }
 }
 
 class Jugador{
     constructor(){
-        this.x = width / 2
-        this.y = height - 100
-        this.s = 50
+        this.x = width / 2;
+        this.y = height - 100;
+        this.s = 50;
     }
 
     show(){
-        ellipse(this.x, this.y, this.s)
+        ellipse(this.x, this.y, this.s);
     }
 
     moveLeft(){
-        this.x = width / 2 - 100
+        this.x = width / 2 - 100;
     }
 
     moveRight(){
-        this.x = width / 2 + 100
+        this.x = width / 2 + 100;
     }
 
     moveCenter(){
-        this.x = width / 2
+        this.x = width / 2;
     }
 }
 
@@ -53,26 +65,34 @@ class Enemigo{
     }
 
     show(){
-        rect(this.x, this.y, this.s)
+        rect(this.x, this.y, this.s);
     }
 
     move(){
         this.y++;
     }
+
+    hits(jugador) {
+        return (
+            this.y + this.s > jugador.y &&
+            this.y < jugador.y + jugador.s &&
+            this.x === jugador.x
+        );
+    }
 }
 
 class Spawn{
     constructor(x, y){
-        this.x = x
-        this.y = y
+        this.x = x;
+        this.y = y;
     }
 
     show(){
-        rect(this.x, this.y, 20)
+        rect(this.x, this.y, 20);
     }
 
     spawn(){
-        enemigos.push(new Enemigo(this.x, this.y))
+        enemigos.push(new Enemigo(this.x, this.y));
     }
 }
 
@@ -86,17 +106,17 @@ class Spawns{
     }
 
     update(){
-        this.spawnPoints.forEach(spawn => spawn.show())
+        this.spawnPoints.forEach(spawn => spawn.show());
         
 
-        if(frameCount % 100 === 0){
-            const moneda = random()
-            const shuffledArray = shuffle(this.spawnPoints)
+        if(frameCount % 130 === 0){
+            const moneda = random();
+            const shuffledArray = shuffle(this.spawnPoints);
             if(moneda > 0.5){
-                shuffledArray[0].spawn()
-                shuffledArray[1].spawn()
+                shuffledArray[0].spawn();
+                shuffledArray[1].spawn();
             } else {
-                shuffledArray[0].spawn()
+                shuffledArray[0].spawn();
             }
         }
 
@@ -110,15 +130,12 @@ function keyboardInputs(){
         }
   
         if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
-            jugador.moveRight()
+            jugador.moveRight();
         }     
     } else {
-        jugador.moveCenter()
+        jugador.moveCenter();
     }    
 }
-
-
-
 
 // let y1, y2, y3;
 // let objects = [];
@@ -166,39 +183,6 @@ function keyboardInputs(){
 //     objects.push({x: width / 2, y: 0});
 //   }
 // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
