@@ -20,9 +20,9 @@ function draw() {
 
 function keyPressed() {
   
-  if (keyCode === LEFT_ARROW && playerPositionX < 400) {
+  if (keyCode === LEFT_ARROW && playerPositionX > 75) {
     playerPositionX -= 100;
-  } else if (keyCode === RIGHT_ARROW && playerPositionX > 0) {
+  } else if (keyCode === RIGHT_ARROW && playerPositionX < 275) {
     playerPositionX += 100;
   }
 }
