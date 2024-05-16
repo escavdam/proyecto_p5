@@ -10,7 +10,7 @@ let keyIsPressed = false;
 let puntuacion = 0;
 
 function setup() {
-  createCanvas(400, 600);
+  createCanvas(500, 700);
   player = new Player();
 }
 
