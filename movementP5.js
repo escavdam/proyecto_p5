@@ -1,12 +1,12 @@
-let X, Y;
+let x, y;
 let step = 200;
-let originalX;
+let center;
 
 function setup() {
   createCanvas(800, 800);
-  X = width / 2;
-  Y = height / 1.2;
-  originalX = X;
+  x = width / 2;
+  y = height / 1.2;
+  center = x;
 }
 
 function draw() {
@@ -16,17 +16,17 @@ function draw() {
 
 function drawPlayer() {
   fill(255, 1, 1);
-  ellipse(X, Y, 50, 50);
+  ellipse(x, y, 50, 50);
 }
 
 function keyPressed() {
-  if (keyCode === LEFT_ARROW && X > 0) {
-    X -= step;
-  } else if (keyCode === RIGHT_ARROW && X < width) {
-    X += step;
+  if (keyCode === LEFT_ARROW && x > 0) {
+    x -= step;
+  } else if (keyCode === RIGHT_ARROW && x < width) {
+    x += step;
   }
 }
 
 function keyReleased() {
-  X = originalX;
+  x = center;
 }
