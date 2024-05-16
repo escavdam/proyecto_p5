@@ -1,13 +1,13 @@
 let jugador
 let enemigos = []
-let spawnTest
+let spawns
 
 function setup(){
-    createCanvas(windowWidth, windowHeight);
+    createCanvas(500, 500);
     colorMode(HSB, 360, 100, 100, 100);
     background(0,0,50)
     jugador = new Jugador()
-    spawnTest = new Spawn(width/2, 0)
+    spawns = new Spawns()
     rectMode(CENTER)
     ellipseMode(CENTER)
 }
@@ -15,10 +15,8 @@ function draw(){
     background(0,0,50)
     keyboardInputs()
     jugador.show()
-    spawnTest.show()
-    if(frameCount%100 === 0){
-        spawnTest.spawn()
-    }
+    spawns.update()
+    spawns.show()
     enemigos.forEach(enemigo => enemigo.show())
     enemigos.forEach(enemigo => enemigo.move())
 }
@@ -35,11 +33,11 @@ class Jugador{
     }
 
     moveLeft(){
-        this.x = width / 2 - 100
+        this.x = width / 2 - 200
     }
 
     moveRight(){
-        this.x = width / 2 + 100
+        this.x = width / 2 + 200
     }
 
     moveCenter(){
@@ -75,6 +73,34 @@ class Spawn{
 
     spawn(){
         enemigos.push(new Enemigo(this.x, this.y))
+    }
+}
+
+class Spawns{
+    constructor(){
+        this.offset = 200
+        this.spawnPoints = []
+        this.spawnPoints.push(new Spawn(width / 2, 0))
+        this.spawnPoints.push(new Spawn(width / 2 + this.offset, 0))
+        this.spawnPoints.push(new Spawn(width / 2 - this.offset, 0))
+    }
+    update(){
+        // frameCount % 50 === 0 es casi el limite de velocidad que usaremos
+
+        if(frameCount % 100 === 0){
+            const moneda = random()
+            console.log(moneda)
+            if(moneda > 0.5){
+                const elemento = random(this.spawnPoints)
+                elemento.spawn()
+
+            } else {
+
+            }
+        }
+    }
+    show(){
+        this.spawnPoints.forEach(spawn => spawn.show())
     }
 }
 
