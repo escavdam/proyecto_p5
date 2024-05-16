@@ -95,6 +95,10 @@ class Spawns{
                 elemento.spawn()
 
             } else {
+                const elemento = random(this.spawnPoints)
+                elemento.spawn()
+                const elemento2 = random(this.spawnPoints)
+                elemento2.spawn()
 
             }
         }
