@@ -1,6 +1,7 @@
 let jugador
 let enemigos = []
 let spawn
+let puntuacion = 0;
 
 function setup(){
     createCanvas(400, 400);
@@ -12,45 +13,75 @@ function setup(){
     ellipseMode(CENTER)
 }
 function draw(){
-    background(0,0,50)
-    keyboardInputs()
-    jugador.show()
-    spawn.update()
-  
-    enemigos.forEach(enemigo => enemigo.show())
-    enemigos.forEach(enemigo => enemigo.move())
+  background(0,0,50);
+  keyboardInputs();
+  jugador.show();
+  spawn.update();
+
+  enemigos.forEach(enemigo => enemigo.show());
+  enemigos.forEach(enemigo => enemigo.move());
+
+  if(jugador.checkCollision(enemigos)){
+    console.log("Game Over block executed");
+    noLoop(); 
+    textSize(32);
+    fill(255,0,0); // Cambio el color a rojo (255,0,0)
+    console.log("Text color set to red");
+    textAlign(CENTER, CENTER);
+    text("Game Over", width / 2, height / 2);
 }
+
+  puntuacion = Math.floor(frameCount / 90);
+
+  textSize(20);
+  fill(0);
+  textAlign(LEFT);
+  text("Puntuación: " + puntuacion, 10, 30);
+}
+
 
 class Jugador{
-    constructor(){
-        this.x = width / 2
-        this.y = height - 100
-        this.s = 50
-    }
+  constructor(){
+      this.x = width / 2
+      this.y = height - 100
+      this.s = 30
+  }
 
-    show(){
-        ellipse(this.x, this.y, this.s)
-    }
+  show(){
+      ellipse(this.x, this.y, this.s)
+  }
 
-    moveLeft(){
-        this.x = width / 2 - 100
-    }
+  moveLeft(){
+      this.x = width / 2 - 100
+  }
 
-    moveRight(){
-        this.x = width / 2 + 100
-    }
+  moveRight(){
+      this.x = width / 2 + 100
+  }
 
-    moveCenter(){
-        this.x = width / 2
-    }
+  moveCenter(){
+      this.x = width / 2
+  }
+
+  checkCollision(enemigos){
+      for(let i = 0; i < enemigos.length; i++){
+          let enemigo = enemigos[i];
+          let distancia = dist(this.x, this.y, enemigo.x, enemigo.y);
+          if(distancia < (this.s / 2 + enemigo.s / 2)){
+              return true; 
+          }
+      }
+      return false; 
+  }
 }
 
-class Enemigo{
-    constructor(x, y){
-        this.x = x;
-        this.y = y;
-        this.s = 50;
-    }
+class Enemigo {
+  constructor(x, y, lane) {
+      this.x = x;
+      this.y = y;
+      this.s = 50;
+      this.lane = lane; 
+  }
 
     show(){
         rect(this.x, this.y, this.s)
@@ -59,6 +90,21 @@ class Enemigo{
     move(){
         this.y++;
     }
+    jugadorDetec(jugador) {
+      return this.y + this.s === jugador.y;
+  }
+
+  carrilDetec(jugador) {
+      return this.lane === jugador.lane;
+  }
+
+  hits(jugador) {
+      return (
+          this.jugadorDetec(jugador) &&
+          this.carrilDetec(jugador)
+      );
+  }
+    
 }
 
 class Spawn{
