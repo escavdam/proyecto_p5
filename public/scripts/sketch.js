@@ -1,15 +1,28 @@
-const hello = "hello p5 👋"
+let playerPositionX = 175
+let playerPositionY = 325
 
-function setup(){
-    createCanvas(windowWidth, windowHeight);
-    colorMode(HSB, 360, 100, 100, 100);
-    background(255)
+function setup() {
+  createCanvas(400, 400);
+  
 }
-function draw(){
-    background(360, 30)
-    textSize(42);
-    fill(frameCount%360, 100, 100, 100);
-    stroke(0);
-    strokeWeight(2)
-    text(hello, noise(frameCount/100)*width, noise(frameCount/130)*height);
+
+function draw() {
+  background(220);
+  
+  line(100, 0, 100, height);
+  line(200, 0, 200, height);
+  line(300, 0, 300, height);
+  
+  
+  fill(255, 0, 0);
+  rect(playerPositionX, playerPositionY, 50, 50);
+}
+
+function keyPressed() {
+  
+  if (keyCode === LEFT_ARROW && playerPositionX < 400) {
+    playerPositionX -= 100;
+  } else if (keyCode === RIGHT_ARROW && playerPositionX > 0) {
+    playerPositionX += 100;
+  }
 }
