@@ -1,15 +1,32 @@
-const hello = "hello p5 👋"
+let numCols = 25;
+let numRows = numCols;
+let cellSize;
+let escenario = [];
 
-function setup(){
-    createCanvas(windowWidth, windowHeight);
-    colorMode(HSB, 360, 100, 100, 100);
-    background(255)
+function setup() {
+  createCanvas(1980, 1980);
+  cellSize = width / numRows;
+
+ 
+  for (let y = 0; y < numRows; y++) {
+    for (let x = 0; x < numCols; x++) {
+      let cell = {
+        x: x * cellSize,
+        y: y * cellSize
+      };
+      escenario.push(cell);
+    }
+  }
 }
-function draw(){
-    background(360, 30)
-    textSize(42);
-    fill(frameCount%360, 100, 100, 100);
+
+function draw() {
+  background(255);
+
+
+  for (let i = 0; i < escenario.length; i++) {
+    let cell = escenario[i];
+    fill(255);
     stroke(0);
-    strokeWeight(2)
-    text(hello, noise(frameCount/100)*width, noise(frameCount/130)*height);
+    rect(cell.x, cell.y, cellSize, cellSize);
+  }
 }

@@ -21,8 +21,6 @@ function setup() {
 
 function draw() {
   background(255);
-
-
   for (let i = 0; i < escenario.length; i++) {
     let cell = escenario[i];
     fill(255);
