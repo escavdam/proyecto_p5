@@ -1,8 +1,8 @@
 let playerPositionX = 175
-let playerPositionY = 325
+let playerPositionY = 500
 
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(400, 600);
   
 }
 
