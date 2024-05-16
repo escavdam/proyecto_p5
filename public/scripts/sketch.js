@@ -1,13 +1,13 @@
 let jugador
 let enemigos = []
-let spawnTest
+let spawn
 
 function setup(){
-    createCanvas(windowWidth, windowHeight);
+    createCanvas(400, 400);
     colorMode(HSB, 360, 100, 100, 100);
     background(0,0,50)
     jugador = new Jugador()
-    spawnTest = new Spawn(width/2, 0)
+    spawn = new Spawns()
     rectMode(CENTER)
     ellipseMode(CENTER)
 }
@@ -15,10 +15,8 @@ function draw(){
     background(0,0,50)
     keyboardInputs()
     jugador.show()
-    spawnTest.show()
-    if(frameCount%100 === 0){
-        spawnTest.spawn()
-    }
+    spawn.update()
+  
     enemigos.forEach(enemigo => enemigo.show())
     enemigos.forEach(enemigo => enemigo.move())
 }
@@ -78,7 +76,32 @@ class Spawn{
     }
 }
 
-class Spawns
+class Spawns{
+    constructor(){
+        this.offset = 100;
+        this.spawnPoints = [];
+        this.spawnPoints.push(new Spawn(width / 2, 0));
+        this.spawnPoints.push(new Spawn(width / 2 + this.offset, 0));
+        this.spawnPoints.push(new Spawn(width / 2 - this.offset, 0));
+    }
+
+    update(){
+        this.spawnPoints.forEach(spawn => spawn.show())
+        
+
+        if(frameCount % 100 === 0){
+            const moneda = random()
+            const shuffledArray = shuffle(this.spawnPoints)
+            if(moneda > 0.5){
+                shuffledArray[0].spawn()
+                shuffledArray[1].spawn()
+            } else {
+                shuffledArray[0].spawn()
+            }
+        }
+
+    }
+}
 
 function keyboardInputs(){
     if(keyIsPressed){
