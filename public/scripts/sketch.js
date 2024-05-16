@@ -2,7 +2,7 @@ let jugador
 let enemigos = []
 let spawn
 let puntuacion = 0;
-
+let velocidad = 1
 function setup(){
     createCanvas(400, 400);
     colorMode(HSB, 360, 100, 100, 100);
@@ -20,7 +20,15 @@ function draw(){
 
   enemigos.forEach(enemigo => enemigo.show());
   enemigos.forEach(enemigo => enemigo.move());
-
+  enemigos.forEach(enemigo => {
+    if(!enemigo.isOnScreen()){
+      velocidad += 0.25
+      spawn.delay -= 1
+      console.log(velocidad)
+    }
+  })
+  enemigos = enemigos.filter(enemigo => enemigo.isOnScreen());
+  
   if(jugador.checkCollision(enemigos)){
     console.log("Game Over block executed");
     noLoop(); 
@@ -76,11 +84,10 @@ class Jugador{
 }
 
 class Enemigo {
-  constructor(x, y, lane) {
+  constructor(x, y) {
       this.x = x;
       this.y = y;
       this.s = 50;
-      this.lane = lane; 
   }
 
     show(){
@@ -88,23 +95,12 @@ class Enemigo {
     }
 
     move(){
-        this.y++;
+        this.y+= velocidad;
     }
-    jugadorDetec(jugador) {
-      return this.y + this.s === jugador.y;
-  }
 
-  carrilDetec(jugador) {
-      return this.lane === jugador.lane;
-  }
-
-  hits(jugador) {
-      return (
-          this.jugadorDetec(jugador) &&
-          this.carrilDetec(jugador)
-      );
-  }
-    
+    isOnScreen(){
+      return this.y < height + this.s;
+    }
 }
 
 class Spawn{
@@ -125,6 +121,7 @@ class Spawn{
 class Spawns{
     constructor(){
         this.offset = 100;
+        this.delay = 100
         this.spawnPoints = [];
         this.spawnPoints.push(new Spawn(width / 2, 0));
         this.spawnPoints.push(new Spawn(width / 2 + this.offset, 0));
@@ -134,8 +131,7 @@ class Spawns{
     update(){
         this.spawnPoints.forEach(spawn => spawn.show())
         
-
-        if(frameCount % 100 === 0){
+        if(frameCount % this.delay === 0){
             const moneda = random()
             const shuffledArray = shuffle(this.spawnPoints)
             if(moneda > 0.5){
