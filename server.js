@@ -4,6 +4,8 @@ const port = 3000;
 const { initDB, readAll, insertarRecord } = require("./scripts/model.js")
 
 app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.get("/", (req, res) => {
     //send public p5_sketch.html
     res.sendFile(__dirname + "/public/main.html");
@@ -11,8 +13,8 @@ app.get("/", (req, res) => {
 
 app.get("/puntos", (req, res) => res.json(readAll()));
 app.post("/puntos", (req, res) => {
-console.log(req.query.nombre, req.query.puntuacion)
-res.json(insertarRecord(req.query.nombre, req.query.puntuacion))
+console.log(req.body.nombre, req.body.puntuacion)
+res.json(insertarRecord(req.body.nombre, req.body.puntuacion))
 });
 app.get("/reset", (req, res) => res.send(initDB()));
 
