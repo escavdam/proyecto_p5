@@ -11,7 +11,8 @@ function preload() {
     enemigoImg = loadImage('assets/enemy.png');
 }
 function setup(){
-    createCanvas(400, 400);
+    let canvas = createCanvas(400, 700);
+    canvas.parent('canvas-container')
     colorMode(HSB, 360, 100, 100, 100);
     background(0,0,50)
     jugador = new Jugador()
