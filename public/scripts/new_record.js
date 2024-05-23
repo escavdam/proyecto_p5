@@ -1,26 +1,26 @@
-const url = '/puntos'; // URL a la que se hará la petición
+const url = '/puntos';
 const data = {
-    nombre: 'Juan',
-    puntuacion: 30
+    nombre: document.getElementById('nombre').value,
+    puntuacion: puntuacion
 };
 
 fetch(url, {
-    method: 'POST', // Especifica que el método es POST
+    method: 'POST',
     headers: {
-        'Content-Type': 'application/json' // Especifica que el contenido es JSON
+        'Content-Type': 'application/json'
     },
-    body: JSON.stringify(data) // Convierte el objeto data a una cadena JSON
+    body: JSON.stringify(data)
 })
 
 .then(response => {
     if (!response.ok) {
         throw new Error('Error en la red: ' + response.statusText);
     }
-    return response.json(); // Convierte la respuesta a JSON
+    return response.json();
 })
 .then(data => {
-    console.log('Respuesta del servidor:', data); // Maneja la respuesta del servidor
+    console.log('Respuesta del servidor:', data);
 })
 .catch(error => {
-    console.error('Hubo un problema con la petición:', error); // Maneja los errores
+    console.error('Hubo un problema con la petición:', error);
 });

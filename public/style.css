@@ -3,17 +3,36 @@
     padding: 0;
     box-sizing: border-box;
 }
-body{
-    margin: 0;
-    padding: 40;
+
+#canvas-container{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    
-    background-image: url('http://i.imgur.com/aSsYebU.jpg');
+    z-index: 1;
 }
 
-canvas {
-    border: 2px solid #fff;
+#formulario-container {
+    position: absolute;
+    top: 60%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    padding: 20px;
+    z-index: 2;
+}
+
+#spin {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+body, html {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent; 
 }

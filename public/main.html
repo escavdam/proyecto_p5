@@ -8,6 +8,16 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <script src="/scripts/sketch.js"></script>
+  <img id="spin" src="assets/fondo.jpg" alt="GIF">
+  <div id="canvas-container">
+  
+  </div>
+  <div id="formulario-container" style="display: none;">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" required>
+    <button onclick="guardarPuntuacion()">Guardar Puntuación</button>
+</div>
+  <script src="./scripts/sketch.js"></script>
+  <script src="./scripts/new_record.js"></script>
 </body>
 </html>
