@@ -3,3 +3,16 @@
     padding: 0;
     box-sizing: border-box;
 }
+body, html {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #303030; /* Fondo oscuro */
+}
+
+canvas {
+    border: 2px solid #fff;
+}
