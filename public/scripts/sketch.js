@@ -1,6 +1,8 @@
 let jugador
 let enemigos = []
 let spawn
+let puntuacion = 0;
+let velocidad = 1;
 
 function setup(){
     createCanvas(400, 400);
@@ -19,13 +21,38 @@ function draw(){
   
     enemigos.forEach(enemigo => enemigo.show())
     enemigos.forEach(enemigo => enemigo.move())
+    enemigos.forEach(enemigo => {
+        if(!enemigo.isOnScreen()){
+          velocidad += 0.25
+          spawn.delay -= 1
+          console.log(velocidad)
+        }
+    })
+    enemigos = enemigos.filter(enemigo => enemigo.isOnScreen());
+
+    if(jugador.checkCollision(enemigos)){
+        console.log("Game Over block executed");
+        noLoop(); 
+        textSize(32);
+        fill(255,0,0); // Cambio el color a rojo (255,0,0)
+        console.log("Text color set to red");
+        textAlign(CENTER, CENTER);
+        text("Game Over", width / 2, height / 2);
+    }
+
+    puntuacion = Math.floor(frameCount / 90);
+
+    textSize(20);
+    fill(0);
+    textAlign(LEFT);
+    text("Puntuación: " + puntuacion, 10, 30);
 }
 
 class Jugador{
     constructor(){
         this.x = width / 2
         this.y = height - 100
-        this.s = 50
+        this.s = 30
     }
 
     show(){
@@ -43,6 +70,17 @@ class Jugador{
     moveCenter(){
         this.x = width / 2
     }
+
+    checkCollision(enemigos){
+        for(let i = 0; i < enemigos.length; i++){
+            let enemigo = enemigos[i];
+            let distancia = dist(this.x, this.y, enemigo.x, enemigo.y);
+            if(distancia < (this.s / 2 + enemigo.s / 2)){
+                return true; 
+            }
+        }
+        return false; 
+    }
 }
 
 class Enemigo{
@@ -57,7 +95,11 @@ class Enemigo{
     }
 
     move(){
-        this.y++;
+        this.y += velocidad;
+    }
+
+    isOnScreen(){
+        return this.y < height + this.s;
     }
 }
 
@@ -79,6 +121,7 @@ class Spawn{
 class Spawns{
     constructor(){
         this.offset = 100;
+        this.delay = 100;
         this.spawnPoints = [];
         this.spawnPoints.push(new Spawn(width / 2, 0));
         this.spawnPoints.push(new Spawn(width / 2 + this.offset, 0));
