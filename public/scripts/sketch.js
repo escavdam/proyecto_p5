@@ -7,8 +7,8 @@ let imagenes;
 
 function preload() {
     imagenes = [
-        loadImage('assets/nave.jpg'),
-        loadImage('assets/naveenemiga.jpg')
+        loadImage('assets/nave.png'),
+        loadImage('assets/naveenemiga.png')
     ];
 }
 
@@ -24,7 +24,11 @@ function setup() {
 }
 
 function draw() {
-    background(0, 0,255);
+    if(frameCount < 250){
+        background(100,100,100)
+    }else{
+        background((frameCount%360),100,100)
+    }
     keyboardInputs();
     jugador.show();
     spawn.update();
