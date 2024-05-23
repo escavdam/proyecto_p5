@@ -1,44 +1,32 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('scoreForm');
-    const saveButton = document.getElementById('saveButton');
+const fs = require("fs")
+const path = require("path")
+const dbpath = path.join(__dirname, "../db/puntos.db")
+const sqlite = require("better-sqlite3")
+const db = new sqlite(dbpath)
 
-    saveButton.addEventListener('click', function(event) {
-        event.preventDefault();
-        
-        const nameInput = document.getElementById('POST-name');
-        const playerName = nameInput.value;
+function initDB(){
+    const init = fs.readFileSync(path.join(__dirname, "../db/init.sql"), "utf8")
+    const statements = init.split(";").filter( statement => statement.trim() !== "")
+    statements.forEach(statement => {
+        db.prepare(statement).run()
+    })
+}
 
-        if (playerName) {
-            const url = '/puntos'; // URL a la que se hará la petición
-            const data = {
-                nombre: playerName,
-                puntuacion: 30 
-            };
+function readAll(){
+    return db.prepare("SELECT * FROM puntuaciones").all();
+}
 
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error en la red: ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Respuesta del servidor:', data);
-                // Aquí puedes manejar la respuesta del servidor, por ejemplo, mostrando un mensaje de éxito
-                form.style.display = 'none'; // Ocultar el formulario después de guardar
-            })
-            .catch(error => {
-                console.error('Hubo un problema con la petición:', error);
-                // Aquí puedes manejar errores, por ejemplo, mostrando un mensaje de error
-            });
-        } else {
-            alert('Por favor, ingresa tu nombre.');
-        }
-    });
-});
+function insertarRecord(nombre, puntos){
+    const statement = db.prepare("INSERT INTO puntuaciones (nombre, puntos) VALUES (?, ?)")
+    statement.run(nombre, puntos)
+}
+
+initDB();
+insertarRecord("pepito", 1000);
+console.log(readAll());
+
+module.exports = {
+    initDB,
+    readAll,
+    insertarRecord
+}
