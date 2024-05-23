@@ -6,4 +6,4 @@ CREATE TABLE IF NOT EXISTS puntuaciones(
   PRIMARY KEY (id AUTOINCREMENT)
 );
 
-INSERT INTO puntuaciones(nombre, puntos) VALUES ('administrador', 100);
+INSERT INTO puntuaciones(nombre, puntos) VALUES ('pepe', 100);
