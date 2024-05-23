@@ -5,7 +5,7 @@ let jugador
 let enemigos = []
 let spawn
 let puntuacion = 0;
-let velocidad = 1
+let velocidad = 4
 function preload(){
     imagenPlayer = loadImage('imagenes/Player.gif')
     imagenEnemy = loadImage('imagenes/Enemy.gif')
@@ -42,10 +42,10 @@ function draw(){
     console.log("Game Over block executed");
     noLoop(); 
     textSize(32);
-    fill(255,0,0); // Cambio el color a rojo (255,0,0)
+    fill(255,0,0); 
     console.log("Text color set to red");
     textAlign(CENTER, CENTER);
-    text("Game Over", width / 2, height / 2);
+    text("Skill issue", width / 2, height / 2);
 }
 
   puntuacion = Math.floor(frameCount / 90);
