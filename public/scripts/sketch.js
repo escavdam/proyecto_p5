@@ -13,7 +13,7 @@ function preload() {
 }
 
 function setup() {
-    let canvas = createCanvas(400, 400);
+    let canvas = createCanvas(400,950);
     canvas.parent('canvas-container');
     colorMode(HSB, 360, 100, 100, 100);
     background(0, 0, 50);
@@ -33,7 +33,7 @@ function draw() {
     enemigos.forEach(enemigo => enemigo.move());
     enemigos.forEach(enemigo => {
         if (!enemigo.isOnScreen()) {
-            velocidad += 0.25;
+            velocidad += 0.5;
             spawn.delay -= 1
             console.log(velocidad);
         }
@@ -48,16 +48,20 @@ function draw() {
         console.log("Text color set to red");
         textAlign(CENTER, CENTER);
         text("Game Over", width / 2, height / 2);
+        mostrarFormulario();
     }
-
+    
     puntuacion = Math.floor(frameCount / 90);
-
+    
     textSize(20);
     fill(0);
     textAlign(LEFT);
     text("Puntuación: " + puntuacion, 10, 30);
 }
 
+function mostrarFormulario() {
+    document.getElementById('formulario-container').style.display = 'block';
+}
 class Jugador {
     constructor() {
         this.x = width / 2;
