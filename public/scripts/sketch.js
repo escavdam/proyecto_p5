@@ -3,6 +3,13 @@ let enemigos = []
 let spawn
 let puntuacion = 0;
 let velocidad = 1;
+let playerImage;
+let enemyImages;
+
+function preload(){
+    playerImage = loadImage('assets/cat.png');
+    enemyImages = loadImage('assets/mosqui.png')
+}
 
 function setup(){
     createCanvas(400, 400);
@@ -52,11 +59,12 @@ class Jugador{
     constructor(){
         this.x = width / 2
         this.y = height - 100
-        this.s = 30
+        this.s = 20
     }
 
     show(){
-        ellipse(this.x, this.y, this.s)
+        imageMode(CENTER)
+        image(playerImage, this.x, this.y, 50, 50)
     }
 
     moveLeft(){
@@ -87,11 +95,12 @@ class Enemigo{
     constructor(x, y){
         this.x = x;
         this.y = y;
-        this.s = 50;
+        this.s = 40;
     }
 
     show(){
-        rect(this.x, this.y, this.s)
+        imageMode(CENTER)
+        image(enemyImages, this.x, this.y, 100, 100)
     }
 
     move(){
