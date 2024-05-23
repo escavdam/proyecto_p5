@@ -167,3 +167,4 @@ function keyboardInputs(){
         jugador.moveCenter();
     }    
 }
+
