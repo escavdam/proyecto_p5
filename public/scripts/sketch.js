@@ -98,7 +98,7 @@ class Enemigo {
   constructor(x, y) {
       this.x = x;
       this.y = y;
-      this.s = Math.floor(Math.random() * 40);
+      this.s = Math.floor(Math.random() * (60 - 20) + 20);
   }
 
     show(){
@@ -123,7 +123,7 @@ class Spawn{
     }
 
     show(){
-        rect(this.x, this.y, 20)
+        //rect(this.x, this.y, 20)
     }
 
     spawn(){
