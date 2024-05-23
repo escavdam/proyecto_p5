@@ -1,7 +1,7 @@
 const url = '/puntos'; // URL a la que se hará la petición
 const data = {
-    nombre: 'Juan',
-    puntuacion: 30
+    nombre: document.getElementById('nombre').value,
+    puntuacion: puntuacion
 };
 
 fetch(url, {
