@@ -12,6 +12,7 @@ app.get("/", (req, res) => {
     });
 
 app.get("/puntos", (req, res) => res.json(readAll()));
+
 app.post("/puntos", (req, res) => {
 console.log(req.body.nombre, req.body.puntuacion)
 res.json(insertarRecord(req.body.nombre, req.body.puntuacion))

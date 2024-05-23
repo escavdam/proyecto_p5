@@ -3,6 +3,7 @@ const path = require("path")
 const dbpath = path.join(__dirname, "../db/puntos.db")
 const sqlite = require("better-sqlite3")
 const db = new sqlite(dbpath)
+//const {data} = require('./newRecord')
 
 function initDB(){
     const init = fs.readFileSync(path.join(__dirname, "../db/init.sql"), "utf8")
@@ -22,7 +23,7 @@ function insertarRecord(nombre, puntos){
 }
 
 initDB();
-insertarRecord("pepito", 1000);
+//insertarRecord("a", 300);
 console.log(readAll());
 
 module.exports = {

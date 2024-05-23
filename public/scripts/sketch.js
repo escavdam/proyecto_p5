@@ -5,7 +5,7 @@ let jugador
 let enemigos = []
 let spawn
 let puntuacion = 0;
-let velocidad = 4
+let velocidad = Math.floor(Math.random() * (4 - 1) + 1)
 function preload(){
     imagenPlayer = loadImage('imagenes/Player.gif')
     imagenEnemy = loadImage('imagenes/Enemy.gif')
@@ -46,6 +46,8 @@ function draw(){
     console.log("Text color set to red");
     textAlign(CENTER, CENTER);
     text("Skill issue", width / 2, height / 2);
+    let form = document.getElementById('gameOverScreen')
+    form.style.display = 'block';
 }
 
   puntuacion = Math.floor(frameCount / 90);

@@ -5,5 +5,3 @@ CREATE TABLE IF NOT EXISTS puntuaciones(
   puntos INTEGER NOT NULL,
   PRIMARY KEY (id AUTOINCREMENT)
 );
-
-INSERT INTO puntuaciones(nombre, puntos) VALUES ('administrador', 100);
