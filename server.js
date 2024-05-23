@@ -10,10 +10,12 @@ app.get("/", (req, res) => {
     });
 
 app.get("/puntos", (req, res) => res.json(readAll()));
+
 app.post("/puntos", (req, res) => {
 console.log(req.query.nombre, req.query.puntuacion)
 res.json(insertarRecord(req.query.nombre, req.query.puntuacion))
 });
+
 app.get("/reset", (req, res) => res.send(initDB()));
 
 app.listen(port, () => {

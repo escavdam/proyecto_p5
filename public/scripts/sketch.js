@@ -38,13 +38,7 @@ function draw(){
     enemigos = enemigos.filter(enemigo => enemigo.isOnScreen());
 
     if(jugador.checkCollision(enemigos)){
-        console.log("Game Over block executed");
-        noLoop(); 
-        textSize(32);
-        fill(255,0,0); // Cambio el color a rojo (255,0,0)
-        console.log("Text color set to red");
-        textAlign(CENTER, CENTER);
-        text("Game Over", width / 2, height / 2);
+       gameOver(); 
     }
 
     puntuacion = Math.floor(frameCount / 90);
@@ -167,4 +161,22 @@ function keyboardInputs(){
     } else {
         jugador.moveCenter()
     }    
+}
+
+function gameOver(){
+    console.log("Game Over block executed");
+    noLoop(); 
+    textSize(32);
+    fill(255,0,0); // Cambio el color a rojo (255,0,0)
+    console.log("Text color set to red");
+    textAlign(CENTER, CENTER);
+    text("Game Over", width / 2, height / 2);
+
+    // Mostrar el formulario
+    let form = document.getElementById('gameOverForm')
+    form.style.display = 'block';
+
+    // Mover el canvas hacia atrás
+    let canvas = document.querySelector('canvas');
+    canvas.style.zIndex = -1;
 }
