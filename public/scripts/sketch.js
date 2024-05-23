@@ -12,7 +12,7 @@ function preload(){
 }
 
 function setup(){
-    createCanvas(400, 400);
+    createCanvas(550, 600);
     colorMode(HSB, 360, 100, 100, 100);
     background(0,0,50);
     jugador = new Jugador();
