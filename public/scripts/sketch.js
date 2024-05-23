@@ -1,19 +1,33 @@
+let jugadorImg;
+let enemigoImg;
 let jugador;
 let enemigos = [];
 let spawn;
 let puntuacion = 0;
+let mejorPuntuacion = 0; // Mejor puntuación guardada
 let velocidad = 1;
 let vidas = 3; // Vidas del jugador
 
+function preload() {
+  jugadorImg = loadImage('hutao.jpg');
+  enemigoImg = loadImage('discordmod.jpg');
+}
+
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(600, 800);
   colorMode(HSB, 360, 100, 100, 100);
   textFont('Arial');
   textAlign(CENTER, CENTER);
   jugador = new Jugador();
   spawn = new Spawns();
   rectMode(CENTER);
-  ellipseMode(CENTER);
+  imageMode(CENTER);
+
+  // Cargar la mejor puntuación anteriormente guardada
+  let puntuacionGuardada = localStorage.getItem('mejorPuntuacion');
+  if (puntuacionGuardada !== null) {
+    mejorPuntuacion = parseInt(puntuacionGuardada);
+  }
 }
 
 function draw() {
@@ -41,6 +55,9 @@ function draw() {
       enemigos.splice(i, 1);
       vidas--; // Restar una vida
       if (vidas <= 0) {
+        if (key === 'r' || key === 'R') {
+            resetGame();
+          }
         gameOver();
       }
     }
@@ -54,23 +71,23 @@ function draw() {
   // Update score
   puntuacion = Math.floor(frameCount / 90);
 
-  // Display score
+  // Display score on the left
+  text(`Puntuación: ${puntuacion}`, 70, 30);
+
+  // Display best score
   fill(30);
-  textSize(20);
-  text(`Puntuación: ${puntuacion}`, width / 2, 30);
+  text(`Mejor Puntuación: ${mejorPuntuacion}`, width / 2, height - 30);
 }
 
 class Jugador {
   constructor() {
     this.x = width / 2;
     this.y = height - 100;
-    this.s = 30;
+    this.s = 50; // Tamaño del jugador
   }
 
   show() {
-    fill(320, 80, 90); // Color rosa para el jugador
-    noStroke();
-    ellipse(this.x, this.y, this.s);
+    image(jugadorImg, this.x, this.y, this.s, this.s); // Dibujar jugador con la imagen
   }
 
   moveLeft() {
@@ -92,19 +109,22 @@ class Jugador {
     }
     return false;
   }
+
+  reset() {
+    this.x = width / 2;
+    this.y = height - 100;
+  }
 }
 
 class Enemigo {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.s = 50;
+    this.s = 50; // Tamaño del enemigo
   }
 
   show() {
-    fill(270, 80, 80); // Color morado para los enemigos
-    noStroke();
-    rect(this.x, this.y, this.s);
+    image(enemigoImg, this.x, this.y, this.s, this.s); // Dibujar enemigo con la imagen
   }
 
   move() {
@@ -168,18 +188,50 @@ function keyboardInputs() {
     if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
       jugador.moveRight();
     }
+
+    // Resetear juego con la tecla R
+    if (key === 'r' || key === 'R') {
+      resetGame();
+    }
   } else {
     jugador.moveCenter();
   }
 }
 
+function resetGame() {
+  // Reiniciar variables
+  puntuacion = 0;
+  vidas = 3;
+  velocidad = 1;
+  enemigos = [];
+  jugador.reset();
+  loop(); // Reanudar el ciclo de draw
+}
+
 function gameOver() {
+  // Guardar la mejor puntuación si la puntuación actual es mayor
+  if (puntuacion > mejorPuntuacion) {
+    mejorPuntuacion = puntuacion;
+    localStorage.setItem('mejorPuntuacion', mejorPuntuacion);
+  }
+  if (key === 'r' || key === 'R') {
+    resetGame();
+  }
   noLoop();
   textSize(32);
   fill(255, 0, 0); // Color rojo para el texto de Game Over
   textAlign(CENTER, CENTER);
   text("Game Over", width / 2, height / 2);
 }
+
+// Evitar que la página se desplace al presionar teclas
+window.addEventListener('keydown', function (e) {
+  if (['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
+    e.preventDefault();
+  }
+}, false);
+
+
 
 
 
