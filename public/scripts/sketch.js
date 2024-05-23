@@ -172,3 +172,70 @@ function keyboardInputs(){
         jugador.moveCenter();
     }    
 }
+
+function gameOver() {
+    noLoop();
+    textSize(32);
+    fill(255, 0, 0);
+    textAlign(CENTER, CENTER);
+    text("Game Over", width / 2, height / 2);
+    
+    // Crear el formulario para ingresar el nombre
+    const form = document.createElement('form');
+    form.innerHTML = `
+        <label for="nombre">Ingresa tu nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+        <button type="submit">Enviar</button>
+    `;
+    document.body.appendChild(form);
+
+    // Manejar el envío del formulario
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const nombre = document.getElementById('nombre').value;
+        if (nombre.trim() !== "") {
+            enviarPuntuacion(nombre);
+        } else {
+            alert('Por favor, ingresa tu nombre antes de enviar.');
+        }
+    });
+}
+
+function enviarPuntuacion(nombre) {
+    const url = '/puntos';
+    const data = {
+        nombre: nombre,
+        puntuacion: puntuacion // Aquí debes usar la puntuación actual del juego
+    };
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error en la red: ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Puntuación guardada:', data);
+    })
+    .catch(error => {
+        console.error('Hubo un problema con la petición:', error);
+    });
+}
+function detectarColision() {
+    if (jugador && enemigos) {
+        if (jugador.checkCollision(enemigos)) {
+            jugador.vida--;
+            if (jugador.vida <= 0) {
+                gameOver();
+            }
+        }
+    }
+}
+
