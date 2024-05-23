@@ -63,7 +63,7 @@ class Jugador{
   }
 
   show(){
-      image(jugadorImg, this.x - this.s / 2, this.y - this.s / 2, this.s, this.s);
+    image(jugadorImg, this.x - this.s / 2, this.y - this.s / 2, this.s, this.s);
   }
 
   moveLeft(){
@@ -99,6 +99,7 @@ class Enemigo {
 
     show(){
         image(enemigoImg, this.x - this.s / 2, this.y - this.s / 2, this.s, this.s);
+
     }
 
     move(){
