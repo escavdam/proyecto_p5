@@ -11,7 +11,7 @@ function preload(){
 }
 
 function setup(){
-    createCanvas(400, 600); // Aumentar la altura del canvas a 600
+    createCanvas(600, 900);
     colorMode(HSB, 360, 100, 100, 100);
     background(0,0,50);
     jugador = new Jugador();
@@ -31,20 +31,23 @@ function draw(){
     enemigos.forEach(enemigo => {
         if(!enemigo.isOnScreen()){
             velocidad += 0.25;
-            spawn.delay = max(spawn.delay - 1, 20); // Asegurar que el delay no sea menor que 20
+            spawn.delay = max(spawn.delay - 1, 20);
             console.log(velocidad);
         }
     });
     enemigos = enemigos.filter(enemigo => enemigo.isOnScreen());
   
     if(jugador.checkCollision(enemigos)){
-        console.log("Game Over block executed");
-        noLoop(); 
-        textSize(32);
-        fill(255,0,0);
-        console.log("Text color set to red");
-        textAlign(CENTER, CENTER);
-        text("Game Over", width / 2, height / 2);
+        jugador.vida--;
+        if (jugador.vida <= 0) {
+            console.log("Game Over block executed");
+            noLoop(); 
+            textSize(32);
+            fill(255,0,0);
+            console.log("Text color set to red");
+            textAlign(CENTER, CENTER);
+            text("Game Over", width / 2, height / 2);
+        }
     }
 
     puntuacion = Math.floor(frameCount / 90);
@@ -53,13 +56,15 @@ function draw(){
     fill(0);
     textAlign(LEFT);
     text("Puntuación: " + puntuacion, 10, 30);
+    text("Vida: " + jugador.vida, 10, 50);
 }
 
 class Jugador{
     constructor(){
         this.x = width / 2;
         this.y = height - 100;
-        this.s = 60;
+        this.s = 30;
+        this.vida = 3;
     }
 
     show(){
@@ -85,6 +90,7 @@ class Jugador{
             let enemigo = enemigos[i];
             let distancia = dist(this.x, this.y, enemigo.x, enemigo.y);
             if(distancia < (this.s / 2 + enemigo.s / 2)){
+                enemigos.splice(i, 1);
                 return true; 
             }
         }
@@ -96,7 +102,7 @@ class Enemigo {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.s = 50;
+        this.s = random(20, 50);
     }
 
     show(){
@@ -120,7 +126,6 @@ class Spawn{
     }
 
     show(){
-        // Aquí puedes mostrar algo si deseas ver los puntos de spawn
     }
 
     spawn(){
@@ -139,7 +144,6 @@ class Spawns{
     }
 
     update(){
-        // Muestra los puntos de spawn si es necesario
         this.spawnPoints.forEach(spawn => spawn.show());
         
         if(frameCount % this.delay === 0){
@@ -157,7 +161,7 @@ class Spawns{
 
 function keyboardInputs(){
     if(keyIsPressed){
-        if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) { //65
+        if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) { 
             jugador.moveLeft();
         }
   
