@@ -5,6 +5,7 @@ let obstacles = [];
 let groundLevel = 300;
 let score = 0;
 let gameOver = false;
+let img;
 
 function setup() {
   createCanvas(400, 500);
@@ -28,7 +29,6 @@ function draw() {
   line(100, 0, 100, height);
   line(200, 0, 200, height);
   line(300, 0, 300, height);
-  
 
 }
 
@@ -99,7 +99,9 @@ class Player {
 
   show() {
     fill(255, 0, 0);
+    img = loadImage('scripts/insecto.png');
     rect(this.x, this.y - this.height, this.width, this.height);
+    
   }
 
   hits(obstacle) {
