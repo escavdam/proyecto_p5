@@ -7,13 +7,16 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const nameInput = document.getElementById('POST-name');
         const playerName = nameInput.value;
+        const playerScore = localStorage.getItem('puntos')
 
         if (playerName) {
             const url = '/puntos'; // URL a la que se hará la petición
             const data = {
                 nombre: playerName,
-                puntuacion: 30 
+                puntos: playerScore 
             };
+
+            console.log("Envio de formulario" , data)
 
             fetch(url, {
                 method: 'POST',

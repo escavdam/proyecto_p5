@@ -1,8 +1,8 @@
 let jugador
 let enemigos = []
 let spawn
-let puntuacion = 0;
-let velocidad = 1;
+let puntos = 0;
+let velocidad = 20;
 let playerImage;
 let enemyImages;
 
@@ -12,7 +12,7 @@ function preload(){
 }
 
 function setup(){
-    createCanvas(400, 400);
+    createCanvas(400, windowHeight);
     colorMode(HSB, 360, 100, 100, 100);
     background(0,0,50)
     jugador = new Jugador()
@@ -41,12 +41,14 @@ function draw(){
        gameOver(); 
     }
 
-    puntuacion = Math.floor(frameCount / 90);
+    puntos = Math.floor(frameCount / 90);
 
     textSize(20);
     fill(0);
     textAlign(LEFT);
-    text("Puntuación: " + puntuacion, 10, 30);
+    text("Puntuación: " + puntos, 10, 30);
+
+    puntos++;
 }
 
 class Jugador{
@@ -179,4 +181,8 @@ function gameOver(){
     // Mover el canvas hacia atrás
     let canvas = document.querySelector('canvas');
     canvas.style.zIndex = -1;
+
+    let textPuntos = document.getElementById('textoPuntos')
+    textPuntos.innerHTML = "New record: " + puntos;
+    localStorage.setItem('puntos', puntos)
 }

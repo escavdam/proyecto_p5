@@ -17,12 +17,12 @@ function readAll(){
 }
 
 function insertarRecord(nombre, puntos){
+    console.log(nombre, puntos)
     const statement = db.prepare("INSERT INTO puntuaciones (nombre, puntos) VALUES (?, ?)")
     statement.run(nombre, puntos)
 }
 
 initDB();
-insertarRecord("pepito", 1000);
 console.log(readAll());
 
 module.exports = {
