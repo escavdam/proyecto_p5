@@ -1,32 +1,26 @@
-const fs = require("fs")
-const path = require("path")
-const dbpath = path.join(__dirname, "../db/puntos.db")
-const sqlite = require("better-sqlite3")
-const db = new sqlite(dbpath)
+const url = '/puntos'; // URL a la que se hará la petición
+const data = {
+    nombre: document.getElementById('nombre').value,
+    puntuacion: puntuacion
+};
 
-function initDB(){
-    const init = fs.readFileSync(path.join(__dirname, "../db/init.sql"), "utf8")
-    const statements = init.split(";").filter( statement => statement.trim() !== "")
-    statements.forEach(statement => {
-        db.prepare(statement).run()
-    })
-}
+fetch(url, {
+    method: 'POST', // Especifica que el método es POST
+    headers: {
+        'Content-Type': 'application/json' // Especifica que el contenido es JSON
+    },
+    body: JSON.stringify(data) // Convierte el objeto data a una cadena JSON
+})
 
-function readAll(){
-    return db.prepare("SELECT * FROM puntuaciones").all();
-}
-
-function insertarRecord(nombre, puntos){
-    const statement = db.prepare("INSERT INTO puntuaciones (nombre, puntos) VALUES (?, ?)")
-    statement.run(nombre, puntos)
-}
-
-initDB();
-insertarRecord("pepito", 1000);
-console.log(readAll());
-
-module.exports = {
-    initDB,
-    readAll,
-    insertarRecord
-}
+.then(response => {
+    if (!response.ok) {
+        throw new Error('Error en la red: ' + response.statusText);
+    }
+    return response.json(); // Convierte la respuesta a JSON
+})
+.then(data => {
+    console.log('Respuesta del servidor:', data); // Maneja la respuesta del servidor
+})
+.catch(error => {
+    console.error('Hubo un problema con la petición:', error); // Maneja los errores
+});

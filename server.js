@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const port = 3000;
-const { initDB, readAll, insertarRecord } = require("./public/scripts/model.js")
+const { initDB, readAll, insertarRecord } = require("./scripts/model.js")
 
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
