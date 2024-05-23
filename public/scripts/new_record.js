@@ -1,26 +1,44 @@
-const url = '/puntos'; // URL a la que se hará la petición
-const data = {
-    nombre: 'Juan',
-    puntuacion: 30
-};
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('scoreForm');
+    const saveButton = document.getElementById('saveButton');
 
-fetch(url, {
-    method: 'POST', // Especifica que el método es POST
-    headers: {
-        'Content-Type': 'application/json' // Especifica que el contenido es JSON
-    },
-    body: JSON.stringify(data) // Convierte el objeto data a una cadena JSON
-})
+    saveButton.addEventListener('click', function(event) {
+        event.preventDefault();
+        
+        const nameInput = document.getElementById('POST-name');
+        const playerName = nameInput.value;
 
-.then(response => {
-    if (!response.ok) {
-        throw new Error('Error en la red: ' + response.statusText);
-    }
-    return response.json(); // Convierte la respuesta a JSON
-})
-.then(data => {
-    console.log('Respuesta del servidor:', data); // Maneja la respuesta del servidor
-})
-.catch(error => {
-    console.error('Hubo un problema con la petición:', error); // Maneja los errores
+        if (playerName) {
+            const url = '/puntos'; // URL a la que se hará la petición
+            const data = {
+                nombre: playerName,
+                puntuacion: 30 
+            };
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la red: ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Respuesta del servidor:', data);
+                // Aquí puedes manejar la respuesta del servidor, por ejemplo, mostrando un mensaje de éxito
+                form.style.display = 'none'; // Ocultar el formulario después de guardar
+            })
+            .catch(error => {
+                console.error('Hubo un problema con la petición:', error);
+                // Aquí puedes manejar errores, por ejemplo, mostrando un mensaje de error
+            });
+        } else {
+            alert('Por favor, ingresa tu nombre.');
+        }
+    });
 });
