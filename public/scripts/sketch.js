@@ -135,6 +135,7 @@ class Enemigo {
         this.y = y;
         this.s = 50;
         this.img = imagenes[1];
+        this.velocidad = random(1, 3.3); 
     }
 
     show() {
@@ -143,13 +144,14 @@ class Enemigo {
     }
 
     move() {
-        this.y += velocidad;
+        this.y += this.velocidad; 
     }
 
     isOnScreen() {
         return this.y < height + this.s;
     }
 }
+
 
 class Spawn {
     constructor(x, y) {
