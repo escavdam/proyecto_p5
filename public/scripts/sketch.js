@@ -3,6 +3,13 @@ let enemigos = []
 let spawn
 let puntuacion = 0;
 let velocidad = 1
+let jugadorImg;
+let enemigoImg;
+
+function preload() {
+    jugadorImg = loadImage('assets/player.png');
+    enemigoImg = loadImage('assets/enemy.png');
+}
 function setup(){
     createCanvas(400, 400);
     colorMode(HSB, 360, 100, 100, 100);
@@ -56,7 +63,7 @@ class Jugador{
   }
 
   show(){
-      ellipse(this.x, this.y, this.s)
+      image(jugadorImg, this.x - this.s / 2, this.y - this.s / 2, this.s, this.s);
   }
 
   moveLeft(){
@@ -91,7 +98,7 @@ class Enemigo {
   }
 
     show(){
-        rect(this.x, this.y, this.s)
+        image(enemigoImg, this.x - this.s / 2, this.y - this.s / 2, this.s, this.s);
     }
 
     move(){
