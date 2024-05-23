@@ -5,12 +5,13 @@
 }
 body{
     margin: 0;
-    padding: 0;
+    padding: 40;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #303030; 
+    
+    background-image: url('http://i.imgur.com/aSsYebU.jpg');
 }
 
 canvas {
