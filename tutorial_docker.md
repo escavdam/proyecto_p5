@@ -34,6 +34,23 @@ EXPOSE 3000
 CMD ["npm", "start"]
 ```
 
+## docker-compose
+docker-compose nos permite configurar otros servicios, redes y volumenes de nuestra app.
+
+En este ejemplo creamos un volumen para poder almacenar nuestros datos persistentes de SQLite.
+
+```yml
+version: '3.8'
+
+services:
+  app:
+      build: .
+      ports:
+        - "3000:3000"
+      volumes:
+        - .:/usr/src/app
+```
+
 ## Build
 
 Una vez tienes los archivos, puedes lanzar la build de la imagen del contenedor con `docker buildx build -t nombre_de_tu_imagen path_de_tu_app`.
