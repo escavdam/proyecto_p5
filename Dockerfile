@@ -1,5 +1,5 @@
 # Usa una imagen base oficial de Node.js de Docker Hub
-FROM node:20-alpine
+FROM node:20
 
 # Establece el directorio de trabajo en el contenedor
 WORKDIR /usr/src/app
