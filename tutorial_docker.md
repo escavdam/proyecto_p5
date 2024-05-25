@@ -50,5 +50,5 @@ Puedes lanzar la imagen con `docker run -d -p 3000:3000 jueguico`.
 
 ## Parar un docker
 
-`docker stop nombre_de_tu_contenedor` para detenerlo.
+`docker stop id_contenedor` para detenerlo.
 
