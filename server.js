@@ -29,6 +29,6 @@ app.post("/puntos", (req, res) => {
 
 app.get("/reset", (req, res) => res.send(initDB()));
 
-app.listen(port, () => {
+app.listen(port,"0.0.0.0", () => {
     console.log(`Servidor lanzado en: http://localhost:${port}`);
 });
