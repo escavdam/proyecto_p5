@@ -1,160 +1,213 @@
-let jugador
-let enemigos = []
-let spawn
+let jugador;
+let enemigos = [];
+let spawn;
 let puntuacion = 0;
-let velocidad = 1
-function setup(){
-    createCanvas(400, 400);
+let velocidad = 1;
+let imagenes;
+
+function preload() {
+    imagenes = [
+        loadImage('assets/nave.png'),
+        loadImage('assets/naveenemiga.png')
+    ];
+}
+
+function setup() {
+    let canvas = createCanvas(400,950);
+    canvas.parent('canvas-container');
     colorMode(HSB, 360, 100, 100, 100);
-    background(0,0,50)
-    jugador = new Jugador()
-    spawn = new Spawns()
-    rectMode(CENTER)
-    ellipseMode(CENTER)
+    background(0, 0, 50);
+    jugador = new Jugador();
+    spawn = new Spawns();
+    rectMode(CENTER);
+    ellipseMode(CENTER);
 }
-function draw(){
-  background(0,0,50);
-  keyboardInputs();
-  jugador.show();
-  spawn.update();
 
-  enemigos.forEach(enemigo => enemigo.show());
-  enemigos.forEach(enemigo => enemigo.move());
-  enemigos.forEach(enemigo => {
-    if(!enemigo.isOnScreen()){
-      velocidad += 0.25
-      spawn.delay -= 1
-      console.log(velocidad)
+function draw() {
+    if(frameCount < 250){
+        background(100,100,100)
+    }else{
+        background((frameCount%360),100,100)
     }
-  })
-  enemigos = enemigos.filter(enemigo => enemigo.isOnScreen());
-  
-  if(jugador.checkCollision(enemigos)){
-    console.log("Game Over block executed");
-    noLoop(); 
-    textSize(32);
-    fill(255,0,0); // Cambio el color a rojo (255,0,0)
-    console.log("Text color set to red");
-    textAlign(CENTER, CENTER);
-    text("Game Over", width / 2, height / 2);
+    keyboardInputs();
+    jugador.show();
+    spawn.update();
+
+    enemigos.forEach(enemigo => enemigo.show());
+    enemigos.forEach(enemigo => enemigo.move());
+    enemigos.forEach(enemigo => {
+        if (!enemigo.isOnScreen()) {
+            velocidad += 0.5;
+            spawn.delay -= 1
+            console.log(velocidad);
+        }
+    });
+    enemigos = enemigos.filter(enemigo => enemigo.isOnScreen());
+
+    if (jugador.checkCollision(enemigos)) {
+        console.log("Game Over block executed");
+        noLoop();
+        textSize(32);
+        fill(255, 0, 0); // Cambio el color a rojo (255,0,0)
+        console.log("Text color set to red");
+        textAlign(CENTER, CENTER);
+        text("Game Over", width / 2, height / 2);
+        mostrarFormulario();
+    }
+    
+    puntuacion = Math.floor(frameCount / 90);
+    
+    textSize(20);
+    fill(0);
+    textAlign(LEFT);
+    text("Puntuación: " + puntuacion, 10, 30);
 }
 
-  puntuacion = Math.floor(frameCount / 90);
-
-  textSize(20);
-  fill(0);
-  textAlign(LEFT);
-  text("Puntuación: " + puntuacion, 10, 30);
+function mostrarFormulario() {
+    document.getElementById('formulario-container').style.display = 'block';
 }
 
+function guardarPuntuacion() {
+    const nombreJugador = document.getElementById('nombre').value;
+    const url = '/puntos';
+    const data = {
+        nombre: nombreJugador,
+        puntuacion: puntuacion
+    };
 
-class Jugador{
-  constructor(){
-      this.x = width / 2
-      this.y = height - 100
-      this.s = 30
-  }
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error en la red: ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Respuesta del servidor:', data);
+    })
+    .catch(error => {
+        console.error('Hubo un problema con la petición:', error);
+    });
+}
 
-  show(){
-      ellipse(this.x, this.y, this.s)
-  }
+class Jugador {
+    constructor() {
+        this.x = width / 2;
+        this.y = height - 100;
+        this.s = 15;
+        this.img = imagenes[0];
+    }
 
-  moveLeft(){
-      this.x = width / 2 - 100
-  }
+    show() {
+        imageMode(CENTER);
+        image(this.img, this.x, this.y, this.s * 2, this.s * 2);
+    }
 
-  moveRight(){
-      this.x = width / 2 + 100
-  }
+    moveLeft() {
+        this.x = width / 2 - 100;
+    }
 
-  moveCenter(){
-      this.x = width / 2
-  }
+    moveRight() {
+        this.x = width / 2 + 100;
+    }
 
-  checkCollision(enemigos){
-      for(let i = 0; i < enemigos.length; i++){
-          let enemigo = enemigos[i];
-          let distancia = dist(this.x, this.y, enemigo.x, enemigo.y);
-          if(distancia < (this.s / 2 + enemigo.s / 2)){
-              return true; 
-          }
-      }
-      return false; 
-  }
+    moveCenter() {
+        this.x = width / 2;
+    }
+
+    checkCollision(enemigos) {
+        for (let i = 0; i < enemigos.length; i++) {
+            let enemigo = enemigos[i];
+            let distancia = dist(this.x, this.y, enemigo.x, enemigo.y);
+            if (distancia < (this.s + enemigo.s) / 2) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 class Enemigo {
-  constructor(x, y) {
-      this.x = x;
-      this.y = y;
-      this.s = 50;
-  }
-
-    show(){
-        rect(this.x, this.y, this.s)
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.s = 50;
+        this.img = imagenes[1];
+        this.velocidad = random(1, 3.3); 
     }
 
-    move(){
-        this.y+= velocidad;
+    show() {
+        imageMode(CENTER);
+        image(this.img, this.x, this.y, this.s, this.s);
     }
 
-    isOnScreen(){
-      return this.y < height + this.s;
-    }
-}
-
-class Spawn{
-    constructor(x, y){
-        this.x = x
-        this.y = y
+    move() {
+        this.y += this.velocidad; 
     }
 
-    show(){
-        rect(this.x, this.y, 20)
-    }
-
-    spawn(){
-        enemigos.push(new Enemigo(this.x, this.y))
+    isOnScreen() {
+        return this.y < height + this.s;
     }
 }
 
-class Spawns{
-    constructor(){
+
+class Spawn {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    show() {
+        rect(this.x, this.y, 20);
+    }
+
+    spawn() {
+        enemigos.push(new Enemigo(this.x, this.y));
+    }
+}
+
+class Spawns {
+    constructor() {
         this.offset = 100;
-        this.delay = 100
+        this.delay = 100;
         this.spawnPoints = [];
         this.spawnPoints.push(new Spawn(width / 2, 0));
         this.spawnPoints.push(new Spawn(width / 2 + this.offset, 0));
         this.spawnPoints.push(new Spawn(width / 2 - this.offset, 0));
     }
 
-    update(){
-        this.spawnPoints.forEach(spawn => spawn.show())
-        
-        if(frameCount % this.delay === 0){
-            const moneda = random()
-            const shuffledArray = shuffle(this.spawnPoints)
-            if(moneda > 0.5){
-                shuffledArray[0].spawn()
-                shuffledArray[1].spawn()
+    update() {
+        this.spawnPoints.forEach(spawn => spawn.show());
+
+        if (frameCount % this.delay === 0) {
+            const moneda = random();
+            const shuffledArray = shuffle(this.spawnPoints);
+            if (moneda > 0.5) {
+                shuffledArray[0].spawn();
+                shuffledArray[1].spawn();
             } else {
-                shuffledArray[0].spawn()
+                shuffledArray[0].spawn();
             }
         }
-
     }
 }
 
-function keyboardInputs(){
-    if(keyIsPressed){
-        if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) { //65
+function keyboardInputs() {
+    if (keyIsPressed) {
+        if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
             jugador.moveLeft();
         }
-  
+
         if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
-            jugador.moveRight()
-        }     
+            jugador.moveRight();
+        }
     } else {
-        jugador.moveCenter()
-    }    
+        jugador.moveCenter();
+    }
 }
