@@ -38,6 +38,8 @@ CMD ["npm", "start"]
 
 Una vez tienes los archivos, puedes lanzar la build de la imagen del contenedor con `docker buildx build -t nombre_de_tu_imagen path_de_tu_app`.
 
+Si tu version de docker no tiene `buildx`, puedes usar `docker build -t nombre_de_tu_imagen path_de_tu_app`
+
 ## Run
 
 Puedes lanzar la imagen con `docker run -d -p 3000:3000 jueguico`.
