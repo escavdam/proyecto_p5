@@ -21,9 +21,9 @@ function insertarRecord(nombre, puntos){
     statement.run(nombre, puntos)
 }
 
-initDB();
-insertarRecord("pepito", 1000);
-console.log(readAll());
+// initDB();
+// insertarRecord("pepito", 1000);
+// console.log(readAll());
 
 module.exports = {
     initDB,
