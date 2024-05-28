@@ -12,7 +12,8 @@ function preload(){
 }
 
 function setup(){
-    createCanvas(550, 600);
+    let canvas = createCanvas(550, 600);
+    canvas.parent('canvas-container');
     colorMode(HSB, 360, 100, 100, 100);
     background(0,0,50);
     jugador = new Jugador();
@@ -22,7 +23,7 @@ function setup(){
 }
 
 function draw(){
-  background(0,0,50);
+  background(240, 100, 50);
   keyboardInputs();
   jugador.show();
   spawn.update();
@@ -46,6 +47,7 @@ function draw(){
     console.log("Text color set to red");
     textAlign(CENTER, CENTER);
     text("Game Over", width / 2, height / 2);
+    mostrarFormulario();
   }
 
   puntuacion = Math.floor(frameCount / 90);
@@ -55,6 +57,40 @@ function draw(){
   textAlign(LEFT);
   text("Puntuación: " + puntuacion, 10, 30);
 }
+
+function mostrarFormulario() {
+    document.getElementById('formulario-container').style.display = 'block';
+}
+
+function guardarPuntuacion() {
+    const nombreJugador = document.getElementById('nombre').value;
+    const url = '/puntos';
+    const data = {
+        nombre: nombreJugador,
+        puntuacion: puntuacion
+    };
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error en la red: ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Respuesta del servidor:', data);
+    })
+    .catch(error => {
+        console.error('Hubo un problema con la petición:', error);
+    });
+}
+
 
 class Jugador{
   constructor(){

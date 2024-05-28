@@ -18,6 +18,6 @@ res.json(insertarRecord(req.body.nombre, req.body.puntuacion))
 });
 app.get("/reset", (req, res) => res.send(initDB()));
 
-app.listen(port,'0.0.0.0' () => {
+app.listen(port,'0.0.0.0', () => {
     console.log(`Servidor lanzado en: http://localhost:${port}`);
     });
